@@ -1,25 +1,22 @@
 class Solution {
     public int numSubarraysWithSum(int[] nums, int goal) {
-        return subArrayCount(nums,goal)-subArrayCount(nums,goal-1);
-    }
+        HashMap<Integer, Integer> map = new HashMap<>();
+        map.put(0, 1); // prefix sum 0 seen once
 
-    public static int subArrayCount(int nums[],int goal){
-        int n=nums.length;
-        int l=0,r=0;
-        int sum=0;
-        int count=0;
+        int prefixSum = 0;
+        int count = 0;
 
-        while(r<n){
-            sum+=nums[r];
+        for (int num : nums) {
+            prefixSum += num;
 
-            while(sum>goal && l<=r){
-                sum-=nums[l];
-                l++;
+            // If prefixSum - goal was seen before, those subarrays end here
+            if (map.containsKey(prefixSum - goal)) {
+                count += map.get(prefixSum - goal);
             }
-            count+=r-l+1;
-            r++;
-        }
 
+            // Store/update prefixSum frequency
+            map.put(prefixSum, map.getOrDefault(prefixSum, 0) + 1);
+        }
         return count;
     }
 }
