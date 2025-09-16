@@ -1,25 +1,22 @@
 class Solution {
     public int numberOfSubstrings(String s) {
-        int l=0,r=0;
-        int n=s.length();
+        int n = s.length();
+        int lastA = -1, lastB = -1, lastC = -1;
+        int count = 0;
 
-        HashMap<Character,Integer> map=new HashMap<>();
-        map.put('a',-1);
-        map.put('b',-1);
-        map.put('c',-1);
-        int count=0;
+        for (int r = 0; r < n; r++) {
+            char ch = s.charAt(r);
+            if (ch == 'a') lastA = r;
+            else if (ch == 'b') lastB = r;
+            else lastC = r;
 
-        while(r<n){
-            map.put(s.charAt(r),r);
-            int a=map.get('a');
-            int b=map.get('b');
-            int c=map.get('c');
-            if(a>-1 && b>-1 && c>-1){
-                l=Math.min(a,Math.min(b,c));
-                count+=l+1;
+            // All three characters have appeared
+            int minLast = Math.min(lastA, Math.min(lastB, lastC));
+            if (minLast != -1) {
+                count += minLast + 1;
             }
-            r++;
         }
+
         return count;
     }
 }
