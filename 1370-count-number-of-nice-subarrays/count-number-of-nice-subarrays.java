@@ -1,28 +1,25 @@
 class Solution {
     public int numberOfSubarrays(int[] nums, int k) {
-        int n = nums.length;
+        return subArrayCount(nums,k)-subArrayCount(nums,k-1);
+    }
 
-        int l = 0, r = 0, niceCount = 0;
-        int odd = 0;
+    public static int subArrayCount(int nums[],int goal){
+        int n=nums.length;
+        int l=0,r=0;
+        int sum=0;
+        int count=0;
 
-        while (r < n) {
-            if (nums[r] % 2 == 1) odd++;
+        while(r<n){
+            sum+=nums[r]%2;
 
-            while (odd > k) {
-                if (nums[l] % 2 == 1) odd--;
+            while(sum>goal && l<=r){
+                sum-=nums[l]%2;
                 l++;
             }
-
-            if (odd == k) {
-                int temp = l;
-                // count how many leading evens we can skip
-                while (temp <= r && nums[temp] % 2 == 0) {
-                    temp++;
-                }
-                niceCount += (temp - l + 1);
-            }
+            count+=r-l+1;
             r++;
         }
-        return niceCount;
+
+        return count;
     }
 }
