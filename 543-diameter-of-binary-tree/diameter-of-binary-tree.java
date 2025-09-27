@@ -14,32 +14,18 @@
  * }
  */
 class Solution {
-    int max = 0;
 
     public int diameterOfBinaryTree(TreeNode root) {
-        diameterHelper(root);
-        return max;
+        int a[]=new int[1];
+        maxDepth(root,a);
+        return a[0];
     }
-
-    private void diameterHelper(TreeNode root) {
-        if (root == null) return;
-
-        int leftHeight = maxDepth(root.left);
-        int rightHeight = maxDepth(root.right);
-
-        // Update global max diameter
-        max = Math.max(max, leftHeight + rightHeight);
-
-        // Continue recursion
-        diameterHelper(root.left);
-        diameterHelper(root.right);
-    }
-
-    private int maxDepth(TreeNode root) {
+    private int maxDepth(TreeNode root,int d[]) {
         if (root == null) return 0;
 
-        int left = maxDepth(root.left);
-        int right = maxDepth(root.right);
+        int left = maxDepth(root.left,d);
+        int right = maxDepth(root.right,d);
+        d[0]=Math.max(d[0],left+right);
 
         return 1 + Math.max(left, right);
     }
