@@ -1,24 +1,17 @@
 class Solution {
     public int minimumDeletions(String s) {
-        int n=s.length();
+        int b=0;
+        int res=0;
 
-        int a=0, b=0;
+        for(int i=0;i<s.length();i++){
+            char c=s.charAt(i);
 
-        for(int i=0;i<n;i++){
-            if(s.charAt(i)=='a') a++;
+            if(c=='b') b++;
+            else if(b>0){
+                b--;
+                res++;
+            }
         }
-
-        int res=a;
-
-        for(int i=0;i<n;i++){
-            int c=s.charAt(i);
-
-            if(c=='a') a--;
-            else b++;
-
-            res=Math.min(res,a+b);
-        }
-
         return res;
     }
 }
