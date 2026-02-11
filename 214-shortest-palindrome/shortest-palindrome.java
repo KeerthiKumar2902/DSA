@@ -1,0 +1,39 @@
+class Solution {
+    public String shortestPalindrome(String s) {
+        String temp = s + "#" + new StringBuilder(s).reverse().toString();
+
+        int lps[]=getLPSTable(temp);
+
+        String suffixPart=new StringBuilder(s.substring(lps[lps.length-1])).reverse().toString();
+
+        return suffixPart+s;
+    }
+
+    public int[] getLPSTable(String s) {
+        
+        int n=s.length();
+        int lps[]=new int[n];
+        int len=0;
+
+        int i=1;
+
+        while( i < n){
+            if(s.charAt(i)==s.charAt(len)){
+                len++;
+                lps[i]=len;
+                i++;
+            }
+            else{
+                if(len!=0){
+                    len=lps[len-1];
+                }else{
+                    lps[i]=0;
+                    i++;
+                }
+            }
+        }
+
+        return lps;
+        
+    }
+}
