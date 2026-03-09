@@ -8,20 +8,31 @@ class Solution {
 
         int windowSize=s1.length();
 
-        for(int i=0;i<s2.length();i++){
-            int windowInd=0;
-            int indx=i;
-            int windowFreq[]=new int[26];
+        int r=0;
+        int n=s2.length();
+        int l=0;
 
-            while(windowInd<windowSize && indx<s2.length()){
-                char c=s2.charAt(indx);
-                windowFreq[c-'a']++;
-                windowInd++;
-                indx++;
+        int windFreq[]=new int[26];
+        while(r<n){
+
+            windFreq[s2.charAt(r)-'a']++;
+
+            int curSize=r-l+1;
+            if(curSize<windowSize){
+                r++;
             }
+            else if(curSize==windowSize){
+                if(isSameArray(frequency,windFreq)){
+                    return true;
+                }
 
-            if(isSameArray(frequency,windowFreq)){
-                return true;
+                r++;
+                windFreq[s2.charAt(l)-'a']--;
+                l++;
+            }
+            else{
+                windFreq[s2.charAt(l)-'a']--;
+                l++;
             }
         }
 
