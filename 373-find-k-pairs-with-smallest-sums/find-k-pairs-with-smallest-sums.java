@@ -2,7 +2,8 @@ class Solution {
     public List<List<Integer>> kSmallestPairs(int[] nums1, int[] nums2, int k) {
         PriorityQueue<int[]> minHeap= new PriorityQueue<>((a,b)-> a[0]-b[0]);
 
-        for(int i=0;i<nums1.length;i++){
+        int limit = Math.min(nums1.length, k);
+        for(int i=0;i<limit;i++){
             int a=nums1[i]+nums2[0];
             minHeap.add(new int[]{ a,i,0 });
         }
