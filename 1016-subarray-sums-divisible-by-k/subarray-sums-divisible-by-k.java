@@ -9,7 +9,8 @@ class Solution {
 
         for(int i=0;i<nums.length;i++){
             prefixSum+=nums[i];
-
+            
+            // Because -2/5 give -2 but it should be 3 Soo to handle negative modulos
             int mod = ((prefixSum % k) + k) % k;
 
             if(map.containsKey(mod)){
