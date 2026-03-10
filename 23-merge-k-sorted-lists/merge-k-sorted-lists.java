@@ -1,35 +1,49 @@
 /**
  * Definition for singly-linked list.
  * public class ListNode {
- *     int val;
- *     ListNode next;
- *     ListNode() {}
- *     ListNode(int val) { this.val = val; }
- *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * int val;
+ * ListNode next;
+ * ListNode() {}
+ * ListNode(int val) { this.val = val; }
+ * ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
-        PriorityQueue<Integer> minHeap=new PriorityQueue<>();
+        // Edge case: Empty input array
+        if (lists == null || lists.length == 0) return null;
 
-        for(int i=0;i<lists.length;i++){
-            ListNode head=lists[i];
+        // Create a Min-Heap of ListNodes. 
+        // We tell it to compare the nodes based on their integer 'val'.
+        PriorityQueue<ListNode> minHeap = new PriorityQueue<>(
+            (a, b) -> Integer.compare(a.val, b.val)
+        );
 
-            while(head!=null){
-                minHeap.add(head.val);
-                head=head.next;
+        // Step 1: Add the first node of every list into the Min-Heap
+        for (ListNode head : lists) {
+            // Check for null because a list in the array might be empty!
+            if (head != null) { 
+                minHeap.add(head);
             }
         }
 
-        ListNode dummy=new ListNode(0);
-        ListNode prev=dummy;
+        ListNode dummy = new ListNode(0);
+        ListNode current = dummy;
 
-        while(!minHeap.isEmpty()){
-            ListNode node=new ListNode(minHeap.poll());
-            prev.next=node;
-            prev=prev.next;
+        // Step 2 & 3: Pop the smallest and push its next node
+        while (!minHeap.isEmpty()) {
+            // Get the smallest node available across all lists
+            ListNode smallestNode = minHeap.poll();
+            
+            // Re-wire our result list to point to this existing node
+            current.next = smallestNode;
+            current = current.next; // Move our pointer forward
+
+            // If the node we just popped has a next node, put it into the heap!
+            if (smallestNode.next != null) {
+                minHeap.add(smallestNode.next);
+            }
         }
-
 
         return dummy.next;
     }
