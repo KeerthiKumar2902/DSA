@@ -14,7 +14,7 @@ class Solution {
             int temp[]= minHeap.poll();
             int i=temp[1];
             int j=temp[2];
-            result.add(new ArrayList<>(List.of(nums1[i],nums2[j])));
+            result.add(Arrays.asList(nums1[i],nums2[j]));
 
             if((j+1)<nums2.length){
                 int sum=nums1[i]+nums2[j+1];
